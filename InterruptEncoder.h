@@ -41,6 +41,21 @@ public:
     void resetPosition() override {
         position = 0;
     }
+    float getSpeed() {
+        unsigned long currentTime = millis();
+        unsigned long timeInterval = currentTime - lastTime; // Time elapsed in milliseconds
+
+        if (timeInterval > 0) {
+            int32_t positionChange = position - lastPosition;
+            speed = (positionChange * 1000.0) / timeInterval; // Speed in pulses per second
+
+            // Update last known position and time
+            lastPosition = position;
+            lastTime = currentTime;
+        }
+
+        return speed; // Return the calculated speed
+    }
 };
 
 #endif // INTERRUPTENCODER_H
